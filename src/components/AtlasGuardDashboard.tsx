@@ -1,0 +1,411 @@
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Progress } from '@/components/ui/progress';
+import { 
+  Camera, 
+  AlertTriangle, 
+  Shield, 
+  Clock, 
+  MapPin, 
+  Volume2, 
+  Eye,
+  Settings,
+  Bell,
+  Activity,
+  Users,
+  Target,
+  Zap
+} from 'lucide-react';
+import StadiumMap from './StadiumMap';
+import SecurityMetrics from './SecurityMetrics';
+import AlertNotifications from './AlertNotifications';
+import MoroccanFlag from './MoroccanFlag';
+
+// Mock data for demonstration
+const mockCameras = [
+  {
+    id: 'cam_1',
+    location: 'North Stand',
+    status: 'active',
+    vision_score: 0.23,
+    audio_score: 0.45,
+    fused_score: 0.31,
+    alert_level: 'normal',
+    recording: true
+  },
+  {
+    id: 'cam_2',
+    location: 'South Gate',
+    status: 'active',
+    vision_score: 0.67,
+    audio_score: 0.82,
+    fused_score: 0.73,
+    alert_level: 'warning',
+    recording: true
+  },
+  {
+    id: 'cam_3',
+    location: 'Pitch Side',
+    status: 'active',
+    vision_score: 0.15,
+    audio_score: 0.20,
+    fused_score: 0.17,
+    alert_level: 'normal',
+    recording: true
+  },
+  {
+    id: 'cam_4',
+    location: 'VIP Section',
+    status: 'active',
+    vision_score: 0.89,
+    audio_score: 0.78,
+    fused_score: 0.85,
+    alert_level: 'alert',
+    recording: true
+  }
+];
+
+const mockAlerts = [
+  {
+    id: '1',
+    timestamp: '2024-11-15T14:30:22Z',
+    camera: 'VIP Section',
+    type: 'crowd_disturbance',
+    severity: 'high',
+    description: 'High violence detection score - immediate attention required'
+  },
+  {
+    id: '2',
+    timestamp: '2024-11-15T14:28:15Z',
+    camera: 'South Gate',
+    type: 'elevated_activity',
+    severity: 'medium',
+    description: 'Elevated crowd activity detected'
+  },
+  {
+    id: '3',
+    timestamp: '2024-11-15T14:25:03Z',
+    camera: 'North Stand',
+    type: 'audio_distress',
+    severity: 'low',
+    description: 'Audio distress patterns identified'
+  }
+];
+
+const stadiums = [
+  'Mohammed V Stadium - Casablanca',
+  'Grand Stade de Tanger',
+  'Prince Moulay Abdellah Stadium - Rabat',
+  'Adrar Stadium - Agadir'
+];
+
+const AtlasGuardDashboard = () => {
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [selectedStadium, setSelectedStadium] = useState(stadiums[0]);
+  const [cameras, setCameras] = useState(mockCameras);
+  const [alerts, setAlerts] = useState(mockAlerts);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const getAlertBadgeVariant = (level: string) => {
+    switch (level) {
+      case 'alert': return 'destructive';
+      case 'warning': return 'secondary';
+      default: return 'outline';
+    }
+  };
+
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case 'high': return 'text-destructive';
+      case 'medium': return 'text-warning';
+      default: return 'text-success';
+    }
+  };
+
+  const formatScore = (score: number) => Math.round(score * 100);
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <AlertNotifications />
+      {/* Header */}
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3">
+                <MoroccanFlag size="lg" />
+                <Shield className="h-8 w-8 text-morocco-red" />
+                <div>
+                  <h1 className="text-2xl font-bold gradient-morocco bg-clip-text text-transparent">
+                    AtlasGuard 2030
+                  </h1>
+                  <p className="text-sm text-muted-foreground">Stadium Safety Control Center</p>
+                </div>
+              </div>
+              <div className="h-8 w-px bg-border" />
+              <Select value={selectedStadium} onValueChange={setSelectedStadium}>
+                <SelectTrigger className="w-80">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {stadiums.map((stadium) => (
+                    <SelectItem key={stadium} value={stadium}>
+                      {stadium}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="flex items-center space-x-6">
+              <div className="text-right">
+                <div className="flex items-center space-x-2">
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  <span className="font-mono text-lg">
+                    {currentTime.toLocaleTimeString()}
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {currentTime.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </p>
+              </div>
+              <Button variant="outline" size="icon">
+                <Bell className="h-4 w-4" />
+              </Button>
+              <Button variant="outline" size="icon">
+                <Settings className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-6 py-6">
+        <div className="grid grid-cols-12 gap-6">
+          {/* Main Camera Grid - 8 columns */}
+          <div className="col-span-8">
+            <div className="grid grid-cols-2 gap-4">
+              {cameras.map((camera) => (
+                <Card key={camera.id} className={`camera-border ${camera.alert_level}`}>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Camera className="h-4 w-4" />
+                        <CardTitle className="text-sm font-medium">{camera.location}</CardTitle>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Badge variant={getAlertBadgeVariant(camera.alert_level)}>
+                          {camera.alert_level}
+                        </Badge>
+                        {camera.recording && (
+                          <div className="flex items-center space-x-1">
+                            <div className="h-2 w-2 bg-destructive rounded-full animate-pulse-security" />
+                            <span className="text-xs text-muted-foreground">REC</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    {/* Mock video feed */}
+                    <div className="aspect-video bg-muted rounded-lg mb-4 flex items-center justify-center">
+                      <div className="text-center">
+                        <Camera className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+                        <p className="text-sm text-muted-foreground">Camera Feed {camera.id}</p>
+                      </div>
+                    </div>
+                    
+                    {/* Scores */}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center space-x-2">
+                          <Eye className="h-3 w-3" />
+                          <span>Vision Score</span>
+                        </div>
+                        <span className="font-mono">{formatScore(camera.vision_score)}%</span>
+                      </div>
+                      <Progress value={formatScore(camera.vision_score)} className="h-1" />
+                      
+                      <div className="flex items-center justify-between text-sm">
+                        <div className="flex items-center space-x-2">
+                          <Volume2 className="h-3 w-3" />
+                          <span>Audio Score</span>
+                        </div>
+                        <span className="font-mono">{formatScore(camera.audio_score)}%</span>
+                      </div>
+                      <Progress value={formatScore(camera.audio_score)} className="h-1" />
+                      
+                      <div className="flex items-center justify-between text-sm font-semibold">
+                        <div className="flex items-center space-x-2">
+                          <Zap className="h-3 w-3 text-morocco-red" />
+                          <span>Fused Score</span>
+                        </div>
+                        <span className="font-mono text-morocco-red">{formatScore(camera.fused_score)}%</span>
+                      </div>
+                      <Progress value={formatScore(camera.fused_score)} className="h-1" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Sidebar - 4 columns */}
+          <div className="col-span-4 space-y-6">
+            {/* Active Alerts */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <AlertTriangle className="h-5 w-5 text-destructive" />
+                  <span>Active Alerts</span>
+                  <Badge variant="destructive">{alerts.length}</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {alerts.map((alert) => (
+                  <Alert key={alert.id} className="p-3">
+                    <AlertDescription>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <MapPin className="h-3 w-3" />
+                            <span className="font-medium">{alert.camera}</span>
+                          </div>
+                          <span className={`text-xs font-semibold ${getSeverityColor(alert.severity)}`}>
+                            {alert.severity.toUpperCase()}
+                          </span>
+                        </div>
+                        <p className="text-sm">{alert.description}</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-muted-foreground">
+                            {new Date(alert.timestamp).toLocaleTimeString()}
+                          </span>
+                          <div className="flex space-x-1">
+                            <Button size="sm" variant="outline" className="h-6 text-xs">
+                              Dispatch
+                            </Button>
+                            <Button size="sm" variant="outline" className="h-6 text-xs">
+                              False Alarm
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </AlertDescription>
+                  </Alert>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Real-time Metrics */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Activity className="h-5 w-5 text-success" />
+                  <span>Real-time Metrics</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-destructive">3</div>
+                    <div className="text-xs text-muted-foreground">Incidents Today</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-success">92%</div>
+                    <div className="text-xs text-muted-foreground">Safety Score</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-morocco-gold">2.3s</div>
+                    <div className="text-xs text-muted-foreground">Response Time</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-primary">45,872</div>
+                    <div className="text-xs text-muted-foreground">Fans Monitored</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* System Status */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Target className="h-5 w-5 text-morocco-green" />
+                  <span>System Status</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">AI Processing</span>
+                  <Badge variant="outline" className="text-success border-success">Online</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Camera Network</span>
+                  <Badge variant="outline" className="text-success border-success">4/4 Active</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Audio Analysis</span>
+                  <Badge variant="outline" className="text-success border-success">Operational</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Alert System</span>
+                  <Badge variant="outline" className="text-success border-success">Ready</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Stadium Map */}
+            <StadiumMap />
+          </div>
+        </div>
+
+        {/* Bottom Section - Analytics Dashboard */}
+        <div className="mt-8 grid grid-cols-12 gap-6">
+          <div className="col-span-8">
+            <SecurityMetrics />
+          </div>
+          <div className="col-span-4">
+            {/* Additional components can go here */}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="border-t border-border bg-card/30 mt-8">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
+            <div className="flex items-center space-x-4">
+              <span>Powered by AtlasGuard 2030 AI Technology</span>
+              <span>•</span>
+              <span>Version 2.1.0</span>
+              <span>•</span>
+              <span>Last Update: {currentTime.toLocaleDateString()}</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="h-2 w-2 bg-success rounded-full animate-pulse-security" />
+              <span>AI Servers Connected</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default AtlasGuardDashboard;

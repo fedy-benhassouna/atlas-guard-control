@@ -2,41 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* AtlasGuard 2030 Design System - Morocco Stadium Safety Dashboard
+   Inspired by Moroccan flag colors and professional security operations
+   All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dark theme for security operation center */
+    --background: 222 26% 7%;
+    --foreground: 0 0% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 222 26% 9%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 222 26% 8%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Morocco red primary */
+    --primary: 356 75% 48%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Morocco green secondary */
+    --secondary: 156 100% 19%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 222 26% 12%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 222 26% 15%;
+    --accent-foreground: 0 0% 95%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Alert colors */
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --warning: 43 100% 68%;
+    --warning-foreground: 222 26% 7%;
 
-    --radius: 0.5rem;
+    --success: 156 100% 35%;
+    --success-foreground: 0 0% 98%;
+
+    --border: 222 26% 18%;
+    --input: 222 26% 12%;
+    --ring: 356 75% 48%;
+
+    --radius: 0.75rem;
+
+    /* AtlasGuard specific colors */
+    --morocco-red: 356 75% 48%;
+    --morocco-green: 156 100% 19%;
+    --morocco-gold: 43 100% 68%;
+    
+    /* Gradients */
+    --gradient-morocco: linear-gradient(135deg, hsl(var(--morocco-red)), hsl(var(--morocco-green)));
+    --gradient-security: linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+    --gradient-alert: linear-gradient(90deg, hsl(var(--destructive)), hsl(var(--warning)));
+    
+    /* Shadows */
+    --shadow-security: 0 4px 24px hsl(var(--morocco-red) / 0.15);
+    --shadow-card: 0 4px 12px hsl(0 0% 0% / 0.4);
+    --shadow-alert: 0 0 20px hsl(var(--destructive) / 0.4);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
 
@@ -55,43 +85,99 @@ All colors MUST be HSL.
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+}
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+/* AtlasGuard custom animations and utilities */
+@layer components {
+  .pulse-security {
+    animation: pulse-security 2s infinite;
   }
+  
+  .camera-border {
+    border: 2px solid hsl(var(--border));
+    transition: var(--transition-smooth);
+  }
+  
+  .camera-border.active {
+    border-color: hsl(var(--success));
+    box-shadow: var(--shadow-security);
+  }
+  
+  .camera-border.warning {
+    border-color: hsl(var(--warning));
+    box-shadow: 0 0 20px hsl(var(--warning) / 0.3);
+  }
+  
+  .camera-border.alert {
+    border-color: hsl(var(--destructive));
+    box-shadow: var(--shadow-alert);
+    animation: pulse-alert 1s infinite;
+  }
+  
+  .gradient-morocco {
+    background: var(--gradient-morocco);
+  }
+  
+  .gradient-security {
+    background: var(--gradient-security);
+  }
+  
+  .text-morocco-red {
+    color: hsl(var(--morocco-red));
+  }
+  
+  .text-morocco-green {
+    color: hsl(var(--morocco-green));
+  }
+  
+  .text-morocco-gold {
+    color: hsl(var(--morocco-gold));
+  }
+}
+
+@layer utilities {
+  .animate-pulse-security {
+    animation: pulse-security 2s infinite;
+  }
+  
+  .animate-pulse-alert {
+    animation: pulse-alert 1s infinite;
+  }
+}
+
+@keyframes pulse-security {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulse-alert {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
 }
 
 @layer base {
