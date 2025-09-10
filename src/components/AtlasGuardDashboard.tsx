@@ -20,8 +20,6 @@ import {
   Target,
   Zap
 } from 'lucide-react';
-import StadiumMap from './StadiumMap';
-import SecurityMetrics from './SecurityMetrics';
 import AlertNotifications from './AlertNotifications';
 import MoroccanFlag from './MoroccanFlag';
 
@@ -312,78 +310,9 @@ const AtlasGuardDashboard = () => {
               </CardContent>
             </Card>
 
-            {/* Real-time Metrics */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Activity className="h-5 w-5 text-success" />
-                  <span>Real-time Metrics</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-destructive">3</div>
-                    <div className="text-xs text-muted-foreground">Incidents Today</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-success">92%</div>
-                    <div className="text-xs text-muted-foreground">Safety Score</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-morocco-gold">2.3s</div>
-                    <div className="text-xs text-muted-foreground">Response Time</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-primary">45,872</div>
-                    <div className="text-xs text-muted-foreground">Fans Monitored</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* System Status */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Target className="h-5 w-5 text-morocco-green" />
-                  <span>System Status</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">AI Processing</span>
-                  <Badge variant="outline" className="text-success border-success">Online</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Camera Network</span>
-                  <Badge variant="outline" className="text-success border-success">4/4 Active</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Audio Analysis</span>
-                  <Badge variant="outline" className="text-success border-success">Operational</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Alert System</span>
-                  <Badge variant="outline" className="text-success border-success">Ready</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Stadium Map */}
-            <StadiumMap />
           </div>
         </div>
 
-        {/* Bottom Section - Analytics Dashboard */}
-        <div className="mt-8 grid grid-cols-12 gap-6">
-          <div className="col-span-8">
-            <SecurityMetrics />
-          </div>
-          <div className="col-span-4">
-            {/* Additional components can go here */}
-          </div>
-        </div>
       </div>
 
       {/* Footer */}
