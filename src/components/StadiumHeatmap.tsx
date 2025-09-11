@@ -99,91 +99,192 @@ const StadiumHeatmap = () => {
       </CardHeader>
       <CardContent>
         {/* Stadium Layout */}
-        <div className="relative">
+        <div className="relative flex justify-center">
           {/* Stadium visual representation */}
-          <div className="mx-auto max-w-4xl">
-            {/* Top sections */}
-            <div className="mb-2 flex justify-center space-x-1">
-              {stadiumSections.filter(s => s.id.startsWith('5')).slice(0, 9).map((section) => (
-                <div
-                  key={section.id}
-                  className={`h-8 w-12 rounded-t-lg border-2 flex items-center justify-center ${getLevelColor(section.level)}`}
-                >
-                  <span className="text-xs font-semibold text-foreground">{section.id}</span>
-                </div>
-              ))}
-            </div>
+          <div className="relative w-[600px] h-[400px]">
             
-            {/* Middle sections with pitch */}
-            <div className="flex items-center justify-between">
-              {/* Left side */}
-              <div className="space-y-1">
-                {stadiumSections.filter(s => s.id.startsWith('1') && parseInt(s.id) >= 135).slice(0, 5).map((section) => (
-                  <div
-                    key={section.id}
-                    className={`h-6 w-10 border-2 flex items-center justify-center ${getLevelColor(section.level)}`}
-                  >
-                    <span className="text-xs font-semibold text-foreground">{section.id}</span>
-                  </div>
-                ))}
-                {stadiumSections.filter(s => s.id === '140' || s.id === '141').map((section) => (
-                  <div
-                    key={section.id}
-                    className={`h-6 w-10 border-2 flex items-center justify-center ${getLevelColor(section.level)}`}
-                  >
-                    <span className="text-xs font-semibold text-foreground">{section.id}</span>
-                  </div>
-                ))}
-                <div className={`h-6 w-10 border-2 flex items-center justify-center ${getLevelColor('safe')}`}>
-                  <span className="text-xs font-semibold text-foreground">540</span>
-                </div>
+            {/* Upper Tier - Outer Ring */}
+            <div className="absolute inset-0">
+              {/* North Upper Sections */}
+              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                {['534', '533', '532', '531', '530', '529', '528', '527', '526', '525', '524'].map((id, index) => {
+                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                  return (
+                    <div
+                      key={id}
+                      className={`h-6 w-8 border flex items-center justify-center text-xs font-semibold rounded-t ${getLevelColor(section.level)}`}
+                      style={{
+                        transform: `rotate(${(index - 5) * 8}deg)`,
+                        transformOrigin: 'center bottom'
+                      }}
+                    >
+                      {id}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* East Upper Sections */}
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex flex-col space-y-1">
+                {['523', '522', '521', '520', '519'].map((id, index) => {
+                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                  return (
+                    <div
+                      key={id}
+                      className={`h-8 w-6 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
+                      style={{
+                        transform: `rotate(${90 + (index - 2) * 12}deg)`,
+                        transformOrigin: 'left center'
+                      }}
+                    >
+                      {id}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* South Upper Sections */}
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                {['501', '502', '503', '504', '505', '506', '507', '508', '509', '510', '511', '512', '513', '514', '515'].map((id, index) => {
+                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                  return (
+                    <div
+                      key={id}
+                      className={`h-6 w-8 border flex items-center justify-center text-xs font-semibold rounded-b ${getLevelColor(section.level)}`}
+                      style={{
+                        transform: `rotate(${180 + (index - 7) * 6}deg)`,
+                        transformOrigin: 'center top'
+                      }}
+                    >
+                      {id}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* West Upper Sections */}
+              <div className="absolute left-2 top-1/2 transform -translate-y-1/2 flex flex-col space-y-1">
+                {['544', '543', '542', '541', '540', '539', '538', '537', '536', '535'].map((id, index) => {
+                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                  return (
+                    <div
+                      key={id}
+                      className={`h-8 w-6 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
+                      style={{
+                        transform: `rotate(${270 + (index - 4) * 10}deg)`,
+                        transformOrigin: 'right center'
+                      }}
+                    >
+                      {id}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Middle Tier */}
+            <div className="absolute inset-8">
+              {/* North Middle */}
+              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                {['134', '133', '132', '131', '130', '129', '128', '127', '126', '125', '124'].map((id, index) => {
+                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                  return (
+                    <div
+                      key={id}
+                      className={`h-5 w-7 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
+                      style={{
+                        transform: `rotate(${(index - 5) * 6}deg)`,
+                        transformOrigin: 'center bottom'
+                      }}
+                    >
+                      {id}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* East Middle */}
+              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col space-y-1">
+                {['123', '122', '121', '120', '119', '118'].map((id, index) => {
+                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                  return (
+                    <div
+                      key={id}
+                      className={`h-7 w-5 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
+                      style={{
+                        transform: `rotate(${90 + (index - 2.5) * 8}deg)`,
+                        transformOrigin: 'left center'
+                      }}
+                    >
+                      {id}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* South Middle */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1">
+                {['101', '103', '104', '105', '106', '107', '108', '109', '110', '111', '112'].map((id, index) => {
+                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                  return (
+                    <div
+                      key={id}
+                      className={`h-5 w-7 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
+                      style={{
+                        transform: `rotate(${180 + (index - 5) * 6}deg)`,
+                        transformOrigin: 'center top'
+                      }}
+                    >
+                      {id}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* West Middle */}
+              <div className="absolute left-4 top-1/2 transform -translate-y-1/2 flex flex-col space-y-1">
+                {['144', '143', '142', '141', '140', '139', '138', '137', '136', '135'].map((id, index) => {
+                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                  return (
+                    <div
+                      key={id}
+                      className={`h-7 w-5 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
+                      style={{
+                        transform: `rotate(${270 + (index - 4.5) * 8}deg)`,
+                        transformOrigin: 'right center'
+                      }}
+                    >
+                      {id}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Football Pitch - Center */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-32 bg-gradient-to-r from-success/30 via-success/20 to-success/30 rounded-lg border-2 border-success/50 shadow-inner">
+              {/* Pitch markings */}
+              <div className="absolute inset-1 border border-success/60 rounded">
+                {/* Goal areas */}
+                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-4 h-12 border border-success/60"></div>
+                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-4 h-12 border border-success/60"></div>
+                
+                {/* Penalty areas */}
+                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-8 h-20 border border-success/60"></div>
+                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-8 h-20 border border-success/60"></div>
+                
+                {/* Center circle */}
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border border-success/60 rounded-full"></div>
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-success/60 rounded-full"></div>
+                
+                {/* Center line */}
+                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-success/60"></div>
               </div>
               
-              {/* Pitch */}
-              <div className="mx-4 h-32 w-48 bg-success/20 border-2 border-success rounded-lg flex items-center justify-center relative">
-                <div className="absolute inset-2 border border-success/40 rounded">
-                  <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-4 h-8 border border-success/40 rounded-r"></div>
-                  <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-4 h-8 border border-success/40 rounded-l"></div>
-                  <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border border-success/40 rounded-full"></div>
-                  <div className="absolute left-1/2 top-0 bottom-0 w-px bg-success/40"></div>
-                </div>
-                <span className="text-xs text-success font-semibold">PITCH</span>
+              {/* Pitch label */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-xs font-bold text-success opacity-80">FOOTBALL PITCH</span>
               </div>
-              
-              {/* Right side */}
-              <div className="space-y-1">
-                {stadiumSections.filter(s => s.id.startsWith('12')).slice(0, 5).map((section) => (
-                  <div
-                    key={section.id}
-                    className={`h-6 w-10 border-2 flex items-center justify-center ${getLevelColor(section.level)}`}
-                  >
-                    <span className="text-xs font-semibold text-foreground">{section.id}</span>
-                  </div>
-                ))}
-                {stadiumSections.filter(s => s.id === '118' || s.id === '119').map((section) => (
-                  <div
-                    key={section.id}
-                    className={`h-6 w-10 border-2 flex items-center justify-center ${getLevelColor(section.level)}`}
-                  >
-                    <span className="text-xs font-semibold text-foreground">{section.id}</span>
-                  </div>
-                ))}
-                <div className={`h-6 w-10 border-2 flex items-center justify-center ${getLevelColor('safe')}`}>
-                  <span className="text-xs font-semibold text-foreground">518</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Bottom sections */}
-            <div className="mt-2 flex justify-center space-x-1">
-              {stadiumSections.filter(s => s.id.startsWith('1') && parseInt(s.id) <= 112).slice(0, 12).map((section) => (
-                <div
-                  key={section.id}
-                  className={`h-8 w-12 rounded-b-lg border-2 flex items-center justify-center ${getLevelColor(section.level)}`}
-                >
-                  <span className="text-xs font-semibold text-foreground">{section.id}</span>
-                </div>
-              ))}
             </div>
           </div>
 
