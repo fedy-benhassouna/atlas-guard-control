@@ -29,9 +29,8 @@ const mockCameras = [
     id: 'cam_1',
     location: 'North Stand',
     status: 'active',
-    vision_score: 0.23,
-    audio_score: 0.45,
-    fused_score: 0.31,
+    detection_status: 'No Violence',
+    video_timestamp: '0.0s',
     alert_level: 'normal',
     recording: true
   },
@@ -39,19 +38,17 @@ const mockCameras = [
     id: 'cam_2',
     location: 'South Gate',
     status: 'active',
-    vision_score: 0.67,
-    audio_score: 0.82,
-    fused_score: 0.73,
-    alert_level: 'warning',
+    detection_status: 'No Violence',
+    video_timestamp: '0.0s',
+    alert_level: 'normal',
     recording: true
   },
   {
     id: 'cam_3',
     location: 'Pitch Side',
     status: 'active',
-    vision_score: 0.15,
-    audio_score: 0.20,
-    fused_score: 0.17,
+    detection_status: 'No Violence',
+    video_timestamp: '0.0s',
     alert_level: 'normal',
     recording: true
   },
@@ -59,10 +56,9 @@ const mockCameras = [
     id: 'cam_4',
     location: 'VIP Section',
     status: 'active',
-    vision_score: 0.89,
-    audio_score: 0.78,
-    fused_score: 0.85,
-    alert_level: 'alert',
+    detection_status: 'No Violence',
+    video_timestamp: '0.0s',
+    alert_level: 'normal',
     recording: true
   }
 ];
@@ -113,6 +109,45 @@ const AtlasGuardDashboard = () => {
     }, 1000);
 
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://127.0.0.1:8000/ws');
+    
+    ws.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        const { timestamp, label } = data;
+        
+        // Update all cameras with the new status (in a real scenario, you'd identify specific cameras)
+        setCameras(prevCameras => 
+          prevCameras.map(camera => ({
+            ...camera,
+            detection_status: label,
+            video_timestamp: timestamp,
+            alert_level: label === 'Violence' ? 'alert' : 'normal'
+          }))
+        );
+      } catch (error) {
+        console.error('Error parsing WebSocket message:', error);
+      }
+    };
+
+    ws.onopen = () => {
+      console.log('Connected to AtlasGuard WebSocket');
+    };
+
+    ws.onclose = () => {
+      console.log('Disconnected from AtlasGuard WebSocket');
+    };
+
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    return () => {
+      ws.close();
+    };
   }, []);
 
   const getAlertBadgeVariant = (level: string) => {
@@ -221,42 +256,51 @@ const AtlasGuardDashboard = () => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    {/* Mock video feed */}
-                    <div className="aspect-video bg-muted rounded-lg mb-4 flex items-center justify-center">
-                      <div className="text-center">
+                    {/* Video feed */}
+                    <div className="aspect-video bg-muted rounded-lg mb-4 flex items-center justify-center relative">
+                      <video 
+                        className="w-full h-full object-cover rounded-lg"
+                        src="http://127.0.0.1:8000/video"
+                        autoPlay
+                        loop
+                        muted
+                        onError={(e) => {
+                          // Fallback to placeholder if video fails to load
+                          e.currentTarget.style.display = 'none';
+                          const nextElement = e.currentTarget.nextElementSibling as HTMLElement;
+                          if (nextElement) {
+                            nextElement.style.display = 'flex';
+                          }
+                        }}
+                      />
+                      <div className="text-center absolute inset-0 items-center justify-center hidden">
                         <Camera className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
                         <p className="text-sm text-muted-foreground">Camera Feed {camera.id}</p>
                       </div>
                     </div>
                     
-                    {/* Scores */}
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
+                    {/* Detection Status */}
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
-                          <Eye className="h-3 w-3" />
-                          <span>Vision Score</span>
+                          <Zap className="h-4 w-4 text-morocco-red" />
+                          <span className="font-semibold">Detection Status</span>
                         </div>
-                        <span className="font-mono">{formatScore(camera.vision_score)}%</span>
+                        <Badge 
+                          variant={camera.detection_status === 'Violence' ? 'destructive' : 'outline'}
+                          className={camera.detection_status === 'Violence' ? 'animate-pulse-security' : ''}
+                        >
+                          {camera.detection_status}
+                        </Badge>
                       </div>
-                      <Progress value={formatScore(camera.vision_score)} className="h-1" />
                       
                       <div className="flex items-center justify-between text-sm">
                         <div className="flex items-center space-x-2">
-                          <Volume2 className="h-3 w-3" />
-                          <span>Audio Score</span>
+                          <Clock className="h-3 w-3" />
+                          <span>Video Timestamp</span>
                         </div>
-                        <span className="font-mono">{formatScore(camera.audio_score)}%</span>
+                        <span className="font-mono">{camera.video_timestamp}</span>
                       </div>
-                      <Progress value={formatScore(camera.audio_score)} className="h-1" />
-                      
-                      <div className="flex items-center justify-between text-sm font-semibold">
-                        <div className="flex items-center space-x-2">
-                          <Zap className="h-3 w-3 text-morocco-red" />
-                          <span>Fused Score</span>
-                        </div>
-                        <span className="font-mono text-morocco-red">{formatScore(camera.fused_score)}%</span>
-                      </div>
-                      <Progress value={formatScore(camera.fused_score)} className="h-1" />
                     </div>
                   </CardContent>
                 </Card>
