@@ -100,182 +100,165 @@ const StadiumHeatmap = () => {
       <CardContent>
         {/* Stadium Layout */}
         <div className="relative flex justify-center">
-          {/* Stadium visual representation */}
-          <div className="relative w-[600px] h-[400px]">
+          <div className="relative w-[500px] h-[350px]">
             
-            {/* Upper Tier - Outer Ring */}
+            {/* Upper Tier - Outer oval */}
             <div className="absolute inset-0">
-              {/* North Upper Sections */}
-              <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
-                {['534', '533', '532', '531', '530', '529', '528', '527', '526', '525', '524'].map((id, index) => {
-                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
-                  return (
-                    <div
-                      key={id}
-                      className={`h-6 w-8 border flex items-center justify-center text-xs font-semibold rounded-t ${getLevelColor(section.level)}`}
-                      style={{
-                        transform: `rotate(${(index - 5) * 8}deg)`,
-                        transformOrigin: 'center bottom'
-                      }}
-                    >
-                      {id}
-                    </div>
-                  );
-                })}
+              {/* Top curve - Upper sections */}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 flex justify-center">
+                <div className="flex space-x-1" style={{ transform: 'perspective(200px) rotateX(15deg)' }}>
+                  {['534', '533', '532', '531', '530', '529', '528', '527', '526', '525', '524'].map((id) => {
+                    const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                    return (
+                      <div
+                        key={id}
+                        className={`h-8 w-8 border flex items-center justify-center text-xs font-semibold rounded-t ${getLevelColor(section.level)}`}
+                      >
+                        {id}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* East Upper Sections */}
-              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex flex-col space-y-1">
-                {['523', '522', '521', '520', '519'].map((id, index) => {
-                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
-                  return (
-                    <div
-                      key={id}
-                      className={`h-8 w-6 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
-                      style={{
-                        transform: `rotate(${90 + (index - 2) * 12}deg)`,
-                        transformOrigin: 'left center'
-                      }}
-                    >
-                      {id}
-                    </div>
-                  );
-                })}
+              {/* Right curve - Upper sections */}
+              <div className="absolute right-0 top-1/2 transform -translate-y-1/2 flex flex-col justify-center">
+                <div className="flex flex-col space-y-1" style={{ transform: 'perspective(200px) rotateY(-15deg)' }}>
+                  {['523', '522', '521', '520', '519'].map((id) => {
+                    const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                    return (
+                      <div
+                        key={id}
+                        className={`h-8 w-8 border flex items-center justify-center text-xs font-semibold rounded-r ${getLevelColor(section.level)}`}
+                      >
+                        {id}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* South Upper Sections */}
-              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
-                {['501', '502', '503', '504', '505', '506', '507', '508', '509', '510', '511', '512', '513', '514', '515'].map((id, index) => {
-                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
-                  return (
-                    <div
-                      key={id}
-                      className={`h-6 w-8 border flex items-center justify-center text-xs font-semibold rounded-b ${getLevelColor(section.level)}`}
-                      style={{
-                        transform: `rotate(${180 + (index - 7) * 6}deg)`,
-                        transformOrigin: 'center top'
-                      }}
-                    >
-                      {id}
-                    </div>
-                  );
-                })}
+              {/* Bottom curve - Upper sections */}
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex justify-center">
+                <div className="flex space-x-1" style={{ transform: 'perspective(200px) rotateX(-15deg)' }}>
+                  {['515', '514', '513', '512', '511', '510', '509', '508', '507', '506', '505', '504', '503', '502', '501'].map((id) => {
+                    const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                    return (
+                      <div
+                        key={id}
+                        className={`h-8 w-8 border flex items-center justify-center text-xs font-semibold rounded-b ${getLevelColor(section.level)}`}
+                      >
+                        {id}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* West Upper Sections */}
-              <div className="absolute left-2 top-1/2 transform -translate-y-1/2 flex flex-col space-y-1">
-                {['544', '543', '542', '541', '540', '539', '538', '537', '536', '535'].map((id, index) => {
-                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
-                  return (
-                    <div
-                      key={id}
-                      className={`h-8 w-6 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
-                      style={{
-                        transform: `rotate(${270 + (index - 4) * 10}deg)`,
-                        transformOrigin: 'right center'
-                      }}
-                    >
-                      {id}
-                    </div>
-                  );
-                })}
+              {/* Left curve - Upper sections */}
+              <div className="absolute left-0 top-1/2 transform -translate-y-1/2 flex flex-col justify-center">
+                <div className="flex flex-col space-y-1" style={{ transform: 'perspective(200px) rotateY(15deg)' }}>
+                  {['535', '536', '537', '538', '539', '540', '541', '542', '543', '544'].map((id) => {
+                    const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                    return (
+                      <div
+                        key={id}
+                        className={`h-8 w-8 border flex items-center justify-center text-xs font-semibold rounded-l ${getLevelColor(section.level)}`}
+                      >
+                        {id}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
             {/* Middle Tier */}
-            <div className="absolute inset-8">
-              {/* North Middle */}
-              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex space-x-1">
-                {['134', '133', '132', '131', '130', '129', '128', '127', '126', '125', '124'].map((id, index) => {
-                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
-                  return (
-                    <div
-                      key={id}
-                      className={`h-5 w-7 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
-                      style={{
-                        transform: `rotate(${(index - 5) * 6}deg)`,
-                        transformOrigin: 'center bottom'
-                      }}
-                    >
-                      {id}
-                    </div>
-                  );
-                })}
+            <div className="absolute inset-12">
+              {/* Top - Middle sections */}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 flex justify-center">
+                <div className="flex space-x-1">
+                  {['134', '133', '132', '131', '130', '129', '128', '127', '126', '125', '124'].map((id) => {
+                    const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                    return (
+                      <div
+                        key={id}
+                        className={`h-6 w-6 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
+                      >
+                        {id}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* East Middle */}
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col space-y-1">
-                {['123', '122', '121', '120', '119', '118'].map((id, index) => {
-                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
-                  return (
-                    <div
-                      key={id}
-                      className={`h-7 w-5 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
-                      style={{
-                        transform: `rotate(${90 + (index - 2.5) * 8}deg)`,
-                        transformOrigin: 'left center'
-                      }}
-                    >
-                      {id}
-                    </div>
-                  );
-                })}
+              {/* Right - Middle sections */}
+              <div className="absolute right-0 top-1/2 transform -translate-y-1/2 flex flex-col justify-center">
+                <div className="flex flex-col space-y-1">
+                  {['123', '122', '121', '120', '119', '118'].map((id) => {
+                    const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                    return (
+                      <div
+                        key={id}
+                        className={`h-6 w-6 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
+                      >
+                        {id}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* South Middle */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1">
-                {['101', '103', '104', '105', '106', '107', '108', '109', '110', '111', '112'].map((id, index) => {
-                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
-                  return (
-                    <div
-                      key={id}
-                      className={`h-5 w-7 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
-                      style={{
-                        transform: `rotate(${180 + (index - 5) * 6}deg)`,
-                        transformOrigin: 'center top'
-                      }}
-                    >
-                      {id}
-                    </div>
-                  );
-                })}
+              {/* Bottom - Middle sections */}
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex justify-center">
+                <div className="flex space-x-1">
+                  {['112', '111', '110', '109', '108', '107', '106', '105', '104', '103', '101'].map((id) => {
+                    const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                    return (
+                      <div
+                        key={id}
+                        className={`h-6 w-6 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
+                      >
+                        {id}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* West Middle */}
-              <div className="absolute left-4 top-1/2 transform -translate-y-1/2 flex flex-col space-y-1">
-                {['144', '143', '142', '141', '140', '139', '138', '137', '136', '135'].map((id, index) => {
-                  const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
-                  return (
-                    <div
-                      key={id}
-                      className={`h-7 w-5 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
-                      style={{
-                        transform: `rotate(${270 + (index - 4.5) * 8}deg)`,
-                        transformOrigin: 'right center'
-                      }}
-                    >
-                      {id}
-                    </div>
-                  );
-                })}
+              {/* Left - Middle sections */}
+              <div className="absolute left-0 top-1/2 transform -translate-y-1/2 flex flex-col justify-center">
+                <div className="flex flex-col space-y-1">
+                  {['135', '136', '137', '138', '139', '140', '141', '142', '143', '144'].map((id) => {
+                    const section = stadiumSections.find(s => s.id === id) || { level: 'safe' };
+                    return (
+                      <div
+                        key={id}
+                        className={`h-6 w-6 border flex items-center justify-center text-xs font-semibold ${getLevelColor(section.level)}`}
+                      >
+                        {id}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
             {/* Football Pitch - Center */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-32 bg-gradient-to-r from-success/30 via-success/20 to-success/30 rounded-lg border-2 border-success/50 shadow-inner">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-24 bg-gradient-to-r from-success/30 via-success/20 to-success/30 rounded-lg border-2 border-success/50 shadow-inner">
               {/* Pitch markings */}
               <div className="absolute inset-1 border border-success/60 rounded">
                 {/* Goal areas */}
-                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-4 h-12 border border-success/60"></div>
-                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-4 h-12 border border-success/60"></div>
+                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-2 h-6 border border-success/60"></div>
+                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-2 h-6 border border-success/60"></div>
                 
                 {/* Penalty areas */}
-                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-8 h-20 border border-success/60"></div>
-                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-8 h-20 border border-success/60"></div>
+                <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-4 h-10 border border-success/60"></div>
+                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-4 h-10 border border-success/60"></div>
                 
                 {/* Center circle */}
-                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 border border-success/60 rounded-full"></div>
-                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-success/60 rounded-full"></div>
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 border border-success/60 rounded-full"></div>
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-0.5 h-0.5 bg-success/60 rounded-full"></div>
                 
                 {/* Center line */}
                 <div className="absolute left-1/2 top-0 bottom-0 w-px bg-success/60"></div>
@@ -283,7 +266,7 @@ const StadiumHeatmap = () => {
               
               {/* Pitch label */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xs font-bold text-success opacity-80">FOOTBALL PITCH</span>
+                <span className="text-xs font-bold text-success opacity-80">PITCH</span>
               </div>
             </div>
           </div>
