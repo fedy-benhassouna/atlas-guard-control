@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import AlertNotifications from './AlertNotifications';
 import MoroccanFlag from './MoroccanFlag';
+import StadiumHeatmap from './StadiumHeatmap';
 
 // Mock data for demonstration
 const mockCameras = [
@@ -355,6 +356,11 @@ const AtlasGuardDashboard = () => {
             </Card>
 
           </div>
+        </div>
+
+        {/* Stadium Heatmap - Full Width */}
+        <div className="mt-6">
+          <StadiumHeatmap />
         </div>
 
       </div>
